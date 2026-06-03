@@ -1,0 +1,160 @@
+{% assign product = all_products['i-love-the-knicks-tee'] %}
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span>THE FINALS START NOW</span><span>•</span>
+    <span>NEXT DAY SHIPPING</span><span>•</span>
+    <span>1,600 SHIRTS ONLY</span><span>•</span>
+    <span>THE KNICKS ARE HERE BABY</span><span>•</span>
+    <span>ORDER TODAY · WEAR IT TOMORROW</span><span>•</span>
+    <span>NYC OR NOTHING</span><span>•</span>
+    <span>THE FINALS START NOW</span><span>•</span>
+    <span>NEXT DAY SHIPPING</span><span>•</span>
+    <span>1,600 SHIRTS ONLY</span><span>•</span>
+    <span>THE KNICKS ARE HERE BABY</span><span>•</span>
+    <span>ORDER TODAY · WEAR IT TOMORROW</span><span>•</span>
+    <span>NYC OR NOTHING</span><span>•</span>
+  </div>
+</div>
+
+<!-- HERO BANNER -->
+<div class="hero-banner">
+  <div class="banner-text">
+    <span class="word-knicks">Knicks</span>
+    <span class="word-rest">in 6</span>
+  </div>
+  <div class="tagline-wrap">
+    <span class="tagline">The Knicks Are Here Baby.</span>
+  </div>
+</div>
+
+<!-- SHIRT + SHIPPING SIDE BY SIDE -->
+<div class="shirt-shipping-row">
+  <div class="shipping-callout">
+    <span class="ship-line1">Next Day</span>
+    <span class="ship-line2">Shipping.</span>
+    <span class="ship-line3">Order today. Wear it tomorrow.</span>
+  </div>
+  <div class="shirt-wrap">
+    <div class="shirt-glow"></div>
+    <div class="finals-badge">🏆 Finals Drop 2026</div>
+    <img src="{{ 'photo.jpg' | asset_url }}" alt="I Love Knicks NY Shirt" class="shirt-img" />
+  </div>
+</div>
+
+<!-- CHECKOUT -->
+<section class="checkout-section">
+  <div class="checkout-card">
+    <div class="checkout-inner">
+      <div class="price-row">
+        <div class="price">$36</div>
+        <div class="shipping-badge">⚡ NEXT DAY SHIPPING</div>
+      </div>
+
+      <div class="label">Select Size</div>
+      <div class="size-grid">
+        {% for variant in product.variants %}
+          <button class="size-btn {% if forloop.first %}active{% endif %}"
+            data-variant-id="{{ variant.id }}"
+            data-size="{{ variant.title }}"
+            onclick="selectSize(this)">
+            {{ variant.title }}
+          </button>
+        {% else %}
+          <button class="size-btn active" data-variant-id="" data-size="S" onclick="selectSize(this)">S</button>
+          <button class="size-btn" data-variant-id="" data-size="M" onclick="selectSize(this)">M</button>
+          <button class="size-btn" data-variant-id="" data-size="L" onclick="selectSize(this)">L</button>
+          <button class="size-btn" data-variant-id="" data-size="XL" onclick="selectSize(this)">XL</button>
+        {% endfor %}
+      </div>
+
+      <div class="label">Quantity</div>
+      <div class="qty-row">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <div class="qty-display" id="qty">1</div>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+
+      <button class="cta-btn" onclick="addToCart()">
+        🏆 GET THE SHIRT — $36
+      </button>
+
+      <div class="trust-row">
+        <span>✓ Limited to 1,600</span>
+        <span>✓ Ships Tomorrow</span>
+        <span>✓ Secure Checkout</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DETAILS -->
+<div class="details-section">
+  <div class="details-inner">
+    <div class="detail-item">
+      <span class="detail-label">Material</span>
+      <span class="detail-value">100% Organic Cotton</span>
+    </div>
+    <div class="detail-divider"></div>
+    <div class="detail-item">
+      <span class="detail-label">Ships From</span>
+      <span class="detail-value">New York City</span>
+    </div>
+    <div class="detail-divider"></div>
+    <div class="detail-item">
+      <span class="detail-label">Availability</span>
+      <span class="detail-value" style="color:var(--orange);">In Stock — Ready To Go</span>
+    </div>
+    <div class="detail-divider"></div>
+    <div class="detail-item">
+      <span class="detail-label">Drop</span>
+      <span class="detail-value">Limited to 1,600 Units</span>
+    </div>
+  </div>
+
+  <div class="proof-row">
+    <div class="proof-photo-wrap">
+      <img src="{{ 'shirt.png' | asset_url }}" alt="The shirts are real" class="proof-photo" />
+    </div>
+    <div class="proof-text-wrap">
+      <div class="not-preorder">Not a<br>pre-order.<br>These shirts<br>exist.<br>Order now,<br>wear tomorrow.</div>
+      <div class="all-sales-final">All sales are final.</div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  © 2026 Bond Projects · ilovetheknicks · Limited to 1,600 Units
+</footer>
+
+<script>
+  let qty = 1;
+  let selectedVariantId = document.querySelector('.size-btn.active')?.dataset.variantId || '';
+
+  function selectSize(btn) {
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedVariantId = btn.dataset.variantId;
+  }
+
+  function changeQty(delta) {
+    qty = Math.max(1, qty + delta);
+    document.getElementById('qty').textContent = qty;
+  }
+
+  function addToCart() {
+    if (!selectedVariantId) {
+      alert('Please select a size');
+      return;
+    }
+    window.location.href = '/cart/' + selectedVariantId + ':' + qty;
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Knicks Drop",
+  "settings": []
+}
+{% endschema %}
